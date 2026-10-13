@@ -1,122 +1,146 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+import { useState } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+} from "react-router-dom";
+import "./App.css";
+import FestiveTrends from "./FestiveTrends";
+import { useProducts } from "./context/ProductContext";
+import { ProductProvider } from "./context/ProductProvider";
+import ProductManager from "./ProductManager";
+
+
+function AppContent() {
+  const products = useProducts();
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<Storefront products={products} />} />
+      <Route path="/manage-products" element={<ProductManager />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
 }
 
-export default App
+function Storefront({ products }) {
+  const [category, setCategory] = useState("All");
+
+  const categories = [
+    "All",
+    ...new Set(products.map((product) => product.category)),
+  ];
+
+  const visibleProducts =
+    category === "All"
+      ? products
+      : products.filter((product) => product.category === category);
+
+  return (
+    <main className="storefront">
+      <header className="site-header">
+        <Link to="/" className="brand">
+          <span className="brand-name">Angelic Thread</span>
+          <span className="brand-subtitle">BY RUCHA · MADE WITH LOVE</span>
+        </Link>
+        <a
+          className="header-link"
+          href="https://www.instagram.com/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Instagram ↗
+        </a>
+      </header>
+      <section className="hero" aria-label="Angelic Thread boutique" />
+      <FestiveTrends />
+
+      <section id="collection" className="collection section">
+        <p className="eyebrow">THE LATEST EDIT</p>
+        <h2>Our Collection</h2>
+        <p className="section-description">
+          Find something that feels uniquely you.
+        </p>
+
+        <div className="category-list">
+          {categories.map((item) => (
+            <button
+              key={item}
+              className={`category-button ${category === item ? "active" : ""
+                }`}
+              onClick={() => setCategory(item)}
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+
+        {visibleProducts.length === 0 ? (
+          <p className="empty-state">
+            No products here yet. Please check back soon.
+          </p>
+        ) : (
+          <div className="product-grid">
+            {visibleProducts.map((product) => (
+              <article className="product-card" key={product.id}>
+                <div className="product-image-wrap">
+                  <img
+                    className="product-image"
+                    src={product.image}
+                    alt={product.name}
+                    loading="lazy"
+                  />
+                  {product.tag && (
+                    <span className="product-tag">{product.tag}</span>
+                  )}
+                </div>
+                <div className="product-info">
+                  <p className="product-category">{product.category}</p>
+                  <h3>{product.name}</h3>
+                  <p className="product-price">₹{product.price}</p>
+                  <a
+                    className="enquire-link"
+                    href={`https://wa.me/917057354437?text=${encodeURIComponent(
+                      `Hi, I'm interested in ${product.name} priced at ₹${product.price}. Please share more details.`
+                    )}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Enquire on WhatsApp ↗
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+<footer className="site-footer">
+        <Link to="/" className="footer-brand">Angelic Thread by Rucha</Link>
+        <p>Made with love. Worn with confidence.</p>
+      </footer>
+    </main>
+  );
+}
+
+function NotFound() {
+  return (
+    <main className="admin-page">
+      <section className="admin-panel">
+        <h1>Page not found</h1>
+        <Link to="/" className="primary-link">Return to store</Link>
+      </section>
+    </main>
+  );
+}
+
+export default function App() {
+  return (
+    <ProductProvider>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </ProductProvider>
+  );
+}

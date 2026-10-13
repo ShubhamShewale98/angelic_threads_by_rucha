@@ -1,0 +1,330 @@
+
+.festive-section {
+  padding: 80px 20px;
+  background: #fffaf6;
+  color: #33221f;
+  font-family: inherit;
+}
+
+.festive-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.festive-heading {
+  max-width: 680px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.festive-eyebrow {
+  display: inline-block;
+  color: #a45b52;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  margin-bottom: 12px;
+}
+
+.festive-heading h2 {
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 1.1;
+  margin: 0 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+}
+
+.festive-heading h2 span {
+  color: #b66b62;
+  font-style: italic;
+}
+
+.festive-heading p,
+.garba-content p,
+.festive-card-content p,
+.festive-offer p {
+  color: #766662;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.garba-feature {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  background: #f2e5dc;
+  margin-bottom: 65px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.garba-image {
+  position: relative;
+  min-height: 380px;
+}
+
+.garba-image img,
+.festive-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.garba-image img {
+  position: absolute;
+  inset: 0;
+}
+
+
+
+.garba-image-label {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  background: #fffaf6;
+  color: #70453f;
+  padding: 10px 14px;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+}
+
+.garba-content {
+  padding: 45px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.garba-content h3,
+.collection-heading h3,
+.festive-offer h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  font-size: clamp(25px, 3vw, 36px);
+  line-height: 1.25;
+  margin: 0 0 14px;
+}
+
+.garba-content p {
+  margin: 0 0 25px;
+}
+
+.festive-button {
+  border: 1px solid #74463f;
+  background: #74463f;
+  color: white;
+  padding: 14px 22px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.festive-button:hover {
+  background: #54312d;
+}
+
+.festive-button span,
+.festive-link span {
+  margin-left: 12px;
+}
+
+.collection-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.collection-heading h3 {
+  margin-bottom: 0;
+}
+
+.collection-note {
+  color: #8b7771;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.festive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px;
+}
+
+.festive-card {
+  background: #fff;
+  border: 1px solid #eee3dd;
+  overflow: hidden;
+}
+
+.festive-card-image {
+  height: 330px;
+  overflow: hidden;
+  position: relative;
+  background: #eee3dd;
+}
+
+.festive-tag {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 8px 10px;
+  background: #fffaf6;
+  color: #74463f;
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  font-weight: 700;
+}
+
+.festive-card-content {
+  padding: 22px;
+}
+
+.festive-card-content h4 {
+  margin: 0 0 7px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 500;
+}
+
+.festive-card-content p {
+  margin: 0 0 18px;
+}
+
+.festive-link {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: #9b5b52;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+}
+
+.festive-link:hover {
+  color: #54312d;
+}
+
+.festive-offer {
+  margin-top: 65px;
+  padding: 40px;
+  background: #74463f;
+  color: #fffaf6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.festive-offer .festive-eyebrow {
+  color: #f0c6b5;
+}
+
+.festive-offer h3 {
+  max-width: 550px;
+  margin-bottom: 10px;
+}
+
+.festive-offer p {
+  max-width: 550px;
+  margin: 0;
+  color: #f0dcd4;
+}
+
+.festive-button-light {
+  flex-shrink: 0;
+  background: #fffaf6;
+  color: #74463f;
+  border-color: #fffaf6;
+}
+
+.festive-button-light:hover {
+  background: #f0e0d7;
+  color: #54312d;
+}
+
+@media (max-width: 768px) {
+  .festive-section {
+    padding: 55px 16px;
+  }
+
+  .garba-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .garba-image {
+    min-height: 320px;
+  }
+
+  .garba-content {
+    padding: 28px 22px;
+  }
+
+  .festive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .festive-card-image {
+    height: 250px;
+  }
+
+  .festive-card-content {
+    padding: 16px;
+  }
+
+  .festive-card-content h4 {
+    font-size: 20px;
+  }
+
+  .collection-note {
+    display: none;
+  }
+
+  .festive-offer {
+    padding: 28px 22px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .festive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .festive-card-image {
+    height: auto;
+    aspect-ratio: 3 / 4;
+  }
+
+  .garba-image {
+    min-height: 280px;
+  }
+
+  .festive-section { padding: 42px 12px; }
+  .festive-heading { margin-bottom: 28px; }
+  .festive-card-content { padding: 13px 11px; }
+  .festive-card-content h4 { font-size: 17px; line-height: 1.3; }
+  .festive-card-content p { font-size: 12px; line-height: 1.6; }
+  .festive-tag { top: 8px; left: 8px; padding: 6px 7px; font-size: 8px; letter-spacing: .8px; }
+  .garba-feature { margin-bottom: 38px; border-radius: 10px; }
+  .garba-image { min-height: 240px; }
+  .garba-content { padding: 24px 18px; }
+  .festive-offer { margin-top: 38px; padding: 24px 18px; border-radius: 10px; }
+  .festive-button { min-height: 46px; }
+}
+
+@media (max-width: 350px) {
+  .festive-grid { grid-template-columns: 1fr; }
+  .festive-card-image { aspect-ratio: 4 / 3; }
+}
