@@ -19,6 +19,20 @@ function slugify(value) {
     .replace(/^-|-$/g, "");
 }
 
+function normalizeImageUrl(value) {
+  const raw = value.trim();
+  try {
+    const url = new URL(raw);
+    if (url.hostname === "drive.google.com" || url.hostname === "www.drive.google.com") {
+      const fileId = url.pathname.match(/^\/file\/d\/([^/]+)/)?.[1] || url.searchParams.get("id");
+      if (fileId) return `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w1000`;
+    }
+  } catch {
+    // Let the existing image URL validation show an error for malformed input.
+  }
+  return raw;
+}
+
 export default function ProductManager() {
   const identityAvailable = typeof window !== "undefined" && Boolean(window.netlifyIdentity);
   const [user, setUser] = useState(null);
@@ -72,7 +86,7 @@ export default function ProductManager() {
   }, []);
 
   const isAdmin = user?.email?.toLowerCase() === AUTHORIZED_EMAIL;
-  console.log("---isAdmin", user?.email)
+
 
   function beginEdit(product) {
     setEditingId(product.id);
@@ -97,7 +111,7 @@ export default function ProductManager() {
       title: form.title.trim(),
       price: form.price.trim(),
       category: form.category,
-      image: form.image.trim(),
+      image: normalizeImageUrl(form.image),
       description: form.description.trim(),
     };
 

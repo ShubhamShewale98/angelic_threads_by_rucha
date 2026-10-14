@@ -15,6 +15,21 @@ function validSlug(slug) {
   return typeof slug === "string" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
 }
 
+function normalizeImageUrl(value) {
+  if (typeof value !== "string") return value;
+  const raw = value.trim();
+  try {
+    const url = new URL(raw);
+    if (url.hostname === "drive.google.com" || url.hostname === "www.drive.google.com") {
+      const fileId = url.pathname.match(/^\/file\/d\/([^/]+)/)?.[1] || url.searchParams.get("id");
+      if (fileId) return `https://drive.google.com/thumbnail?id=${encodeURIComponent(fileId)}&sz=w1000`;
+    }
+  } catch {
+    // Validation below reports malformed URLs.
+  }
+  return raw;
+}
+
 function validateProduct(product) {
   if (!product || typeof product !== "object") return "Product data is required.";
   if (typeof product.title !== "string" || !product.title.trim() || product.title.length > 120) return "Title is required and must be at most 120 characters.";
@@ -31,7 +46,6 @@ export default async (request) => {
 
   const user = await getUser();
   const userEmail = user?.email?.toLowerCase();
-  console.log("userEmail-----",JSON.stringify(context,null,2))
   if (userEmail !== AUTHORIZED_EMAIL) return json(403, { error: "This account is not authorized to manage products." });
 
   const token = Netlify.env.get("GITHUB_TOKEN");
@@ -80,9 +94,13 @@ export default async (request) => {
       return json(200, { ok: true });
     }
 
-    const problem = validateProduct(body.product);
+    const product = {
+      ...body.product,
+      image: normalizeImageUrl(body.product?.image),
+    };
+    const problem = validateProduct(product);
     if (problem) return json(400, { error: problem });
-    const content = Buffer.from(`${JSON.stringify(body.product, null, 2)}\n`).toString("base64");
+    const content = Buffer.from(`${JSON.stringify(product, null, 2)}\n`).toString("base64");
     const response = await fetch(apiBase, {
       method: "PUT",
       headers,
