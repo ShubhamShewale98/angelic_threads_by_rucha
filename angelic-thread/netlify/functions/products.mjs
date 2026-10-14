@@ -1,3 +1,5 @@
+import { getUser } from "@netlify/identity";
+
 const PRODUCT_DIR = "src/data/products";
 const AUTHORIZED_EMAIL = "shubhamshewale498@gmail.com";
 const ALLOWED_CATEGORIES = new Set(["Dresses", "Tops", "Kurtis", "Festive"]);
@@ -23,11 +25,12 @@ function validateProduct(product) {
   return null;
 }
 
-export default async (request, context) => {
+export default async (request) => {
   if (request.method === "OPTIONS") return new Response(null, { status: 204 });
   if (!["PUT", "DELETE"].includes(request.method)) return json(405, { error: "Method not allowed." });
 
-  const userEmail = context.clientContext?.user?.email?.toLowerCase();
+  const user = await getUser();
+  const userEmail = user?.email?.toLowerCase();
   console.log("userEmail-----",JSON.stringify(context,null,2))
   if (userEmail !== AUTHORIZED_EMAIL) return json(403, { error: "This account is not authorized to manage products." });
 
