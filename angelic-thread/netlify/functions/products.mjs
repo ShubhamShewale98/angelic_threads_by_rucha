@@ -28,6 +28,7 @@ export default async (request, context) => {
   if (!["PUT", "DELETE"].includes(request.method)) return json(405, { error: "Method not allowed." });
 
   const userEmail = context.clientContext?.user?.email?.toLowerCase();
+  console.log("userEmail-----",JSON.stringify(context,null,2))
   if (userEmail !== AUTHORIZED_EMAIL) return json(403, { error: "This account is not authorized to manage products." });
 
   const token = Netlify.env.get("GITHUB_TOKEN");

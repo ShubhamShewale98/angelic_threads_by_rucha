@@ -72,6 +72,7 @@ export default function ProductManager() {
   }, []);
 
   const isAdmin = user?.email?.toLowerCase() === AUTHORIZED_EMAIL;
+  console.log("---isAdmin", user?.email)
 
   function beginEdit(product) {
     setEditingId(product.id);
