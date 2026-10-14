@@ -9,6 +9,7 @@ const EMPTY_FORM = {
   image: "",
   description: "",
 };
+const AUTHORIZED_EMAIL = "shubhamshewale498@gmail.com";
 
 function slugify(value) {
   return value
@@ -70,8 +71,7 @@ export default function ProductManager() {
     };
   }, []);
 
-  const roles = user?.app_metadata?.roles ?? [];
-  const isAdmin = roles.includes("admin");
+  const isAdmin = user?.email?.toLowerCase() === AUTHORIZED_EMAIL;
 
   function beginEdit(product) {
     setEditingId(product.id);
@@ -163,7 +163,7 @@ export default function ProductManager() {
         <section className="product-manager-panel">
           <p className="eyebrow">STORE MANAGEMENT</p>
           <h1>Sign in to manage products</h1>
-          <p>Sign in with a Netlify Identity account assigned the admin role.</p>
+          <p>Sign in with the authorized Netlify Identity account.</p>
           <button className="primary-button" onClick={() => window.netlifyIdentity.open("login")}>Sign in</button>
         </section>
       </main>
@@ -173,7 +173,7 @@ export default function ProductManager() {
   if (!isAdmin) {
     return (
       <main className="product-manager">
-        <p>This account does not have the product manager admin role.</p>
+        <p>This account is not authorized to manage products.</p>
         <button className="secondary-button" onClick={() => window.netlifyIdentity.logout()}>Sign out</button>
       </main>
     );

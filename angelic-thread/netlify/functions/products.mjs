@@ -1,4 +1,5 @@
 const PRODUCT_DIR = "src/data/products";
+const AUTHORIZED_EMAIL = "shubhamshewale498@gmail.com";
 const ALLOWED_CATEGORIES = new Set(["Dresses", "Tops", "Kurtis", "Festive"]);
 
 function json(statusCode, payload) {
@@ -26,8 +27,8 @@ export default async (request, context) => {
   if (request.method === "OPTIONS") return new Response(null, { status: 204 });
   if (!["PUT", "DELETE"].includes(request.method)) return json(405, { error: "Method not allowed." });
 
-  const roles = context.clientContext?.user?.app_metadata?.roles ?? [];
-  if (!roles.includes("admin")) return json(403, { error: "Admin role is required." });
+  const userEmail = context.clientContext?.user?.email?.toLowerCase();
+  if (userEmail !== AUTHORIZED_EMAIL) return json(403, { error: "This account is not authorized to manage products." });
 
   const token = Netlify.env.get("GITHUB_TOKEN");
   const repository = Netlify.env.get("GITHUB_REPOSITORY");
